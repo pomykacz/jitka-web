@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostDate from '../../components/PostDate.astro';
+import { posts } from '../../lib/content';
+import { url } from '../../lib/urls';
+const entries = await posts();
+---
+<BaseLayout title="Blog" description="Články na webu Jitky.">
+  <h1>Blog</h1>
+  {entries.length === 0 && <p>Zatím zde nejsou žádné články.</p>}
+  <ul class="posts">{entries.map((entry) => <li>
+    <h2><a href={url(`blog/${entry.id}/`)}>{entry.data.title}</a></h2>
+    <PostDate date={entry.data.pubDate} />
+    {entry.data.draft && <span> (koncept)</span>}
+    <p>{entry.data.description}</p>
+  </li>)}</ul>
+</BaseLayout>

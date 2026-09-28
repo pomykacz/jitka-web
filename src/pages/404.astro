@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/urls';
+---
+<BaseLayout title="Stránka nenalezena" description="Požadovaná stránka nebyla nalezena.">
+  <h1>Stránka nenalezena</h1>
+  <p>Tato adresa nevede na žádnou stránku.</p>
+  <p><a href={url()}>Vrátit se na úvod</a></p>
+</BaseLayout>

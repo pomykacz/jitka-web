@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pages } from '../lib/content';
+import { url } from '../lib/urls';
+const entries = await pages();
+---
+<BaseLayout title="Úvod" description="Osobní web a blog Jitky.">
+  <h1>Jitka web</h1>
+  <p>Osobní web a blog. Obsah se připravuje.</p>
+  <p><a href={url('blog/')}>Přejít na blog</a></p>
+  {entries.length > 0 && <section aria-labelledby="pages-heading">
+    <h2 id="pages-heading">Stránky</h2>
+    <ul>{entries.map((entry) => <li>
+      <a href={url(`pages/${entry.id}/`)}>{entry.data.title}</a>
+      {entry.data.draft && ' (koncept)'}
+    </li>)}</ul>
+  </section>}
+</BaseLayout>

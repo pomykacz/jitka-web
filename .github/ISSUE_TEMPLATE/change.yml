@@ -1,0 +1,25 @@
+name: Změna webu
+description: Nový obsah, úprava vzhledu nebo jiná změna.
+body:
+  - type: textarea
+    id: result
+    attributes:
+      label: Co by se mělo změnit?
+      description: Popište vlastními slovy požadovaný výsledek a stránku, které se týká.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Jak poznáme, že je změna hotová?
+      description: Co má být vidět nebo fungovat při kontrole?
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Texty, obrázky nebo příklady
+      description: Připojte obsah, snímky obrazovky nebo odkazy, které nám pomohou.
+  - type: markdown
+    attributes:
+      value: Po zadání postupujte podle WORKFLOW.md a projektu jitka-web. Samotné vytvoření požadavku ještě nespustí práci.
