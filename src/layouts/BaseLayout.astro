@@ -1,0 +1,32 @@
+---
+import { url } from '../lib/urls';
+import '../styles/global.css';
+
+interface Props { title: string; description: string; draft?: boolean }
+const { title, description, draft = false } = Astro.props;
+---
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {draft && <meta name="robots" content="noindex, nofollow" />}
+    <title>{title} | Jitka web</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Přejít k obsahu</a>
+    <header>
+      <a href={url()}>Jitka web</a>
+      <nav aria-label="Hlavní navigace">
+        <a href={url()}>Úvod</a>
+        <a href={url('blog/')}>Blog</a>
+      </nav>
+    </header>
+    <main id="content">
+      {draft && <p class="draft">Koncept — zobrazuje se pouze při místním vývoji.</p>}
+      <slot />
+    </main>
+    <footer>Jitka web</footer>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostDate from '../../components/PostDate.astro';
+import { posts } from '../../lib/content';
+import { url } from '../../lib/urls';
+
+export const getStaticPaths = (async () =>
+  (await posts()).map((post) => ({ params: { id: post.id }, props: { post } }))) satisfies GetStaticPaths;
+
+const { post } = Astro.props as InferGetStaticPropsType<typeof getStaticPaths>;
+const { Content } = await render(post);
+---
+<BaseLayout title={post.data.title} description={post.data.description} draft={post.data.draft}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <PostDate date={post.data.pubDate} />
+    {post.data.tags.length > 0 && <p>Štítky: {post.data.tags.join(', ')}</p>}
+    <Content />
+  </article>
+  <p><a href={url('blog/')}>Zpět na blog</a></p>
+</BaseLayout>

@@ -1,0 +1,21 @@
+{
+  "name": "jitka-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "^22.12.0 || ^24.0.0", "npm": ">=10" },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "node scripts/site.mjs check",
+    "build": "node scripts/site.mjs build",
+    "preview": "astro preview",
+    "smoke": "node scripts/smoke.mjs",
+    "test": "node scripts/test-content.mjs"
+  },
+  "dependencies": { "astro": "7.3.5" },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3",
+    "parse5": "8.0.1"
+  }
+}
