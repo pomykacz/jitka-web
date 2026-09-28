@@ -20,7 +20,10 @@ function run(command, args = [], success = true) {
   });
   if (result.error) throw result.error;
   if (success && result.status !== 0) throw new Error(result.stdout + result.stderr);
-  if (!success) assert.notEqual(result.status, 0, 'Invalid frontmatter must fail check');
+  if (!success) {
+    assert.notEqual(result.status, 0, 'Invalid frontmatter must fail check');
+    assert.match(result.stdout + result.stderr, /InvalidContentEntryDataError/, 'Expected a schema error');
+  }
   if (success) process.stdout.write(result.stdout);
 }
 
@@ -63,7 +66,7 @@ try {
 
   await writeFile(join(postDir, 'invalid.md'), '---\ntitle: Invalid post\n---\nMissing required description and date.\n');
   run('check', [], false);
-  console.log('Content smoke passed: second post/page, processed local image, draft routes/text, invalid schema.');
+  console.log('Content smoke passed: second post/page, processed local image, draft routes/text/images, invalid schema.');
 } finally {
   await rm(postDir, { recursive: true, force: true });
   await rm(pageDir, { recursive: true, force: true });

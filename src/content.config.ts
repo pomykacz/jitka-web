@@ -1,10 +1,10 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { glob } from 'astro/loaders';
+import { glob, type Loader } from 'astro/loaders';
 
 // File paths are stable URLs. Titles and dates never change an entry's URL.
-function contentLoader(base: string) {
-  return glob({
+function contentLoader(base: string): Loader {
+  const loader = glob({
     base,
     pattern: '**/*.md',
     generateId: ({ entry }) => {
@@ -15,6 +15,19 @@ function contentLoader(base: string) {
       return id;
     },
   });
+  return {
+    name: 'published-markdown',
+    async load(context) {
+      // Validate every entry first. Removing drafts from the build-time store
+      // also removes their image imports; route filtering alone leaks assets.
+      await loader.load(context);
+      if (!context.watcher) {
+        for (const entry of context.store.values()) {
+          if (entry.data.draft) context.store.delete(entry.id);
+        }
+      }
+    },
+  };
 }
 
 const common = {
