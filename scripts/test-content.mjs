@@ -1,15 +1,18 @@
 import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { root } from './options.mjs';
+import { baseOption, root } from './options.mjs';
 
 // Temporary Markdown/assets exercise the authoring contract without application changes.
-const id = `smoke-${process.pid}`;
+const id = `smoke-${randomUUID()}`;
 const postDir = join(root, 'src/content/posts', id);
 const pageDir = join(root, 'src/content/pages', id);
 const marker = `DRAFT-PRIVATE-${id}`;
-const image = join(root, 'src/content/posts/example/sample.png');
+const productionBase = baseOption([]);
+// Original 2x2 PNG fixture, independent of editable example content.
+const image = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAD0lEQVR4nGNwAAOGA2AAAB+OBgGWsTnXAAAAAElFTkSuQmCC', 'base64');
 
 function run(command, args = [], success = true) {
   const result = spawnSync(process.execPath, ['scripts/site.mjs', command, ...args], {
@@ -33,13 +36,14 @@ async function allOutput(directory) {
 try {
   await mkdir(postDir);
   await mkdir(pageDir);
-  await cp(image, join(postDir, 'local.png'));
-  await writeFile(join(postDir, 'index.md'), `---\ntitle: Second post smoke\ndescription: Added with Markdown only\npubDate: 2026-09-28\ntags: [test]\n---\n\nSECOND-POST-${id}\n\n![Local test image](./local.png)\n`);
+  await writeFile(join(postDir, `${id}.png`), image);
+  await writeFile(join(postDir, 'index.md'), `---\ntitle: Second post smoke\ndescription: Added with Markdown only\npubDate: 2026-09-28\ntags: [test]\n---\n\nSECOND-POST-${id}\n\n![Local test image](./${id}.png)\n`);
   await writeFile(join(pageDir, 'index.md'), '---\ntitle: Another page\ndescription: Added with Markdown only\n---\n\nStandalone test page.\n');
   run('build');
   const article = await readFile(join(root, `dist/blog/${id}/index.html`), 'utf8');
   assert(article.includes(`SECOND-POST-${id}`));
-  assert.match(article, /src="\/jitka-web\/_astro\/[^" ]+\.webp"/);
+  assert(article.includes(`src="${productionBase}_astro/${id}.`));
+  assert.match(article, /src="[^" ]+\.webp"/);
   assert((await readFile(join(root, 'dist/blog/index.html'), 'utf8')).includes(`/blog/${id}/`));
   assert((await readFile(join(root, 'dist/index.html'), 'utf8')).includes(`/pages/${id}/`));
 
@@ -52,6 +56,7 @@ try {
   run('build', ['--base=/qa-content-smoke/']);
   const output = await allOutput(join(root, 'dist'));
   assert(!output.some((file) => file.includes(`/${id}/`)), 'Draft route leaked');
+  assert(!output.some((file) => file.includes(`/${id}.`)), 'Draft-only image leaked');
   for (const file of output) {
     assert(!(await readFile(file)).includes(Buffer.from(marker)), `Draft text leaked into ${file}`);
   }
