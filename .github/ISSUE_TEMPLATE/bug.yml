@@ -1,0 +1,29 @@
+name: Nahlásit chybu
+description: Něco na webu nefunguje podle očekávání.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Co se stalo a kde?
+      description: Přidejte adresu stránky a stručně popište problém.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Co by mělo fungovat jinak?
+      description: Podle čeho při kontrole poznáte, že je chyba opravená?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Jak chybu zopakovat?
+      description: Co jste otevřeli nebo na co jste klikli? Pomůže i typ zařízení a prohlížeč.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Snímky obrazovky nebo další příklady
+      description: Pokud můžete, přetáhněte sem obrázek problému. U soukromého náhledu přidejte ID kandidáta.

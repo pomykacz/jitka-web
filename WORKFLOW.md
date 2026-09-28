@@ -2,7 +2,7 @@
 
 Use GitHub issues in the [jitka-web Project](https://github.com/orgs/pomykacz/projects/1).
 
-1. Write requirements and acceptance criteria in an issue and add it to Backlog. Once the poller has observed it (about 60 seconds), move it to Ready. Alternatively, comment `/mayor start` to select it immediately for intake.
+1. Write requirements and acceptance criteria in an issue, add it to the project, then move it to Ready. Newly added project items moved to Ready after activation do not need to wait for a Backlog poll. Alternatively, comment `/mayor start` to select an issue immediately for intake. Items already present at activation are not automatically started; explicitly move them to Ready or use `/mayor start` when you want to begin work.
 2. The Mayor acknowledges the durable request and moves the issue to In progress. Workers accumulate changes on the issue's integration branch and PR.
 3. In review means a fixed QA build and manual review instructions are available. The preview is private and requires Tailscale; production GitHub Pages remains on the last merged version.
 4. For rework, post `/mayor rework candidate=<id>` on the first line of a new comment, followed by the feedback. Use the candidate ID in the QA report. This keeps the same issue, parent and PR.

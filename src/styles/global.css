@@ -1,0 +1,19 @@
+:root { font-family: system-ui, sans-serif; color: #222; background: #fff; line-height: 1.6; }
+* { box-sizing: border-box; }
+body { max-width: 48rem; margin: 0 auto; padding: 0 1.25rem; overflow-wrap: anywhere; }
+header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; border-bottom: 1px solid #ccc; }
+nav { display: flex; gap: 1.25rem; }
+main { min-height: 65vh; padding: 2rem 0; }
+footer { padding: 1.5rem 0; border-top: 1px solid #ccc; }
+a { color: #174d80; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 0.15em; }
+:focus-visible { outline: 3px solid #174d80; outline-offset: 4px; }
+h1, h2, h3 { line-height: 1.25; }
+img { display: block; max-width: 100%; height: auto; }
+pre { overflow-x: auto; padding: 1rem; }
+time, footer { color: #555; }
+.posts { padding: 0; list-style: none; }
+.posts li { margin-bottom: 2rem; }
+.draft { border: 1px solid #777; padding: 0.75rem; }
+.skip-link { position: absolute; left: -10000px; }
+.skip-link:focus { position: static; display: block; padding: 0.5rem; }
