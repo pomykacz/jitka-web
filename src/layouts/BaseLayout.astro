@@ -1,5 +1,7 @@
 ---
 import { url } from '../lib/urls';
+import ThemeScript from '../components/ThemeScript.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import '../styles/global.css';
 
 interface Props { title: string; description: string; draft?: boolean }
@@ -9,6 +11,7 @@ const { title, description, draft = false } = Astro.props;
 <html lang="cs">
   <head>
     <meta charset="utf-8" />
+    <ThemeScript />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     {draft && <meta name="robots" content="noindex, nofollow" />}
@@ -22,6 +25,7 @@ const { title, description, draft = false } = Astro.props;
         <a href={url()}>Úvod</a>
         <a href={url('blog/')}>Blog</a>
       </nav>
+      <ThemeToggle />
     </header>
     <main id="content">
       {draft && <p class="draft">Koncept — zobrazuje se pouze při místním vývoji.</p>}
