@@ -11,7 +11,9 @@ const scriptNode = head.childNodes.find((node) => node.tagName === 'script');
 assert(scriptNode, 'Theme initialization must be in the head');
 assert(!scriptNode.attrs.some(({ name }) => ['src', 'defer', 'async', 'type'].includes(name)), 'Theme must run synchronously');
 const script = scriptNode.childNodes.map((node) => node.value ?? '').join('');
-assert(head.childNodes.indexOf(scriptNode) < head.childNodes.findIndex((node) => node.tagName === 'link'), 'Restore theme before styles');
+const styleIndex = head.childNodes.findIndex((node) => node.tagName === 'style' ||
+  (node.tagName === 'link' && node.attrs.some(({ name, value }) => name === 'rel' && value === 'stylesheet')));
+assert(styleIndex > head.childNodes.indexOf(scriptNode), 'Restore theme before inline or linked styles');
 
 class Events {
   listeners = new Map();
