@@ -10,7 +10,7 @@
     "build": "node scripts/site.mjs build",
     "preview": "astro preview",
     "smoke": "node scripts/smoke.mjs",
-    "test": "node scripts/test-content.mjs"
+    "test": "node scripts/test-content.mjs && node scripts/test-theme.mjs"
   },
   "dependencies": { "astro": "7.3.5" },
   "devDependencies": {

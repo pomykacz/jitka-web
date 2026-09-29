@@ -1,0 +1,38 @@
+<!-- Blocking head script: resolve the theme before any page content can paint. -->
+<script is:inline>
+  (() => {
+    const key = 'jitka-web-theme';
+    const root = document.documentElement;
+    const system = window.matchMedia('(prefers-color-scheme: dark)');
+    const valid = (value) => value === 'light' || value === 'dark';
+    let choice = null;
+    try {
+      const saved = localStorage.getItem(key);
+      if (valid(saved)) choice = saved;
+    } catch { /* Storage can be unavailable; the system preference still works. */ }
+
+    const apply = () => {
+      const theme = choice ?? (system.matches ? 'dark' : 'light');
+      root.dataset.theme = theme;
+      document.querySelector('[data-theme-toggle]')?.setAttribute('aria-pressed', String(theme === 'dark'));
+    };
+    apply();
+    system.addEventListener('change', apply);
+    window.addEventListener('storage', (event) => {
+      if (event.key !== key && event.key !== null) return;
+      choice = valid(event.newValue) ? event.newValue : null;
+      apply();
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.querySelector('[data-theme-toggle]');
+      if (!toggle) return;
+      apply();
+      toggle.addEventListener('click', () => {
+        choice = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        apply();
+        try { localStorage.setItem(key, choice); } catch { /* Keep the choice for this page. */ }
+      });
+      toggle.hidden = false;
+    }, { once: true });
+  })();
+</script>

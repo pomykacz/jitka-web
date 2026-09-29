@@ -41,7 +41,7 @@ try {
   await mkdir(pageDir);
   await writeFile(join(postDir, `${id}.png`), image);
   await writeFile(join(postDir, 'index.md'), `---\ntitle: Second post smoke\ndescription: Added with Markdown only\npubDate: 2026-09-28\ntags: [test]\n---\n\nSECOND-POST-${id}\n\n![Local test image](./${id}.png)\n`);
-  await writeFile(join(pageDir, 'index.md'), '---\ntitle: Another page\ndescription: Added with Markdown only\n---\n\nStandalone test page.\n');
+  await writeFile(join(pageDir, 'index.md'), '---\ntitle: Another page\ndescription: Added with Markdown only\n---\n\nStandalone test page.\n\nInline `code`.\n\n```js\nconst greeting = "hello";\n```\n');
   run('build');
   const article = await readFile(join(root, `dist/blog/${id}/index.html`), 'utf8');
   assert(article.includes(`SECOND-POST-${id}`));
@@ -49,6 +49,9 @@ try {
   assert.match(article, /src="[^" ]+\.webp"/);
   assert((await readFile(join(root, 'dist/blog/index.html'), 'utf8')).includes(`/blog/${id}/`));
   assert((await readFile(join(root, 'dist/index.html'), 'utf8')).includes(`/pages/${id}/`));
+
+  const codePage = await readFile(join(root, `dist/pages/${id}/index.html`), 'utf8');
+  assert(codePage.includes('--shiki-light:') && codePage.includes('--shiki-dark:'), 'Code must have both theme palettes');
 
   // Publishing then drafting catches stale routes left by previous builds.
   for (const dir of [postDir, pageDir]) {
