@@ -1,19 +1,78 @@
-:root { font-family: system-ui, sans-serif; color: #222; background: #fff; line-height: 1.6; }
+:root {
+  color-scheme: light;
+  --color-background: #fff;
+  --color-text: #222;
+  --color-muted: #555;
+  --color-link: #174d80;
+  --color-link-hover: #10385f;
+  --color-focus: #174d80;
+  --color-surface: #f3f5f7;
+  --color-border: #ccc;
+  --color-control-border: #777;
+  font-family: system-ui, sans-serif;
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.6;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-background: #181c22;
+  --color-text: #e4e7eb;
+  --color-muted: #b1bac5;
+  --color-link: #91c7f4;
+  --color-link-hover: #c5e3fc;
+  --color-focus: #91c7f4;
+  --color-surface: #232a33;
+  --color-border: #46515e;
+  --color-control-border: #8493a5;
+}
+
+/* The same palette works without JavaScript; an explicit choice takes priority. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --color-background: #181c22;
+    --color-text: #e4e7eb;
+    --color-muted: #b1bac5;
+    --color-link: #91c7f4;
+    --color-link-hover: #c5e3fc;
+    --color-focus: #91c7f4;
+    --color-surface: #232a33;
+    --color-border: #46515e;
+    --color-control-border: #8493a5;
+  }
+  :root:not([data-theme]) pre.astro-code span { color: var(--shiki-dark, var(--color-text)) !important; }
+}
+
 * { box-sizing: border-box; }
 body { max-width: 48rem; margin: 0 auto; padding: 0 1.25rem; overflow-wrap: anywhere; }
-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; border-bottom: 1px solid #ccc; }
+header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; border-bottom: 1px solid var(--color-border); }
 nav { display: flex; gap: 1.25rem; }
 main { min-height: 65vh; padding: 2rem 0; }
-footer { padding: 1.5rem 0; border-top: 1px solid #ccc; }
-a { color: #174d80; text-underline-offset: 0.2em; }
-a:hover { text-decoration-thickness: 0.15em; }
-:focus-visible { outline: 3px solid #174d80; outline-offset: 4px; }
+footer { padding: 1.5rem 0; border-top: 1px solid var(--color-border); }
+a { color: var(--color-link); text-underline-offset: 0.2em; }
+a:hover { color: var(--color-link-hover); text-decoration-thickness: 0.15em; }
+:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 4px; }
 h1, h2, h3 { line-height: 1.25; }
 img { display: block; max-width: 100%; height: auto; }
-pre { overflow-x: auto; padding: 1rem; }
-time, footer { color: #555; }
+code { background: var(--color-surface); padding: 0.1em 0.25em; border-radius: 0.2rem; }
+pre { overflow-x: auto; padding: 1rem; background: var(--color-surface); }
+pre code { padding: 0; border-radius: 0; background: transparent; }
+/* Shiki emits a color variable per token for each configured theme. */
+pre.astro-code { color: var(--color-text) !important; background: var(--color-surface) !important; }
+pre.astro-code span { color: var(--shiki-light, var(--color-text)) !important; }
+:root[data-theme='dark'] pre.astro-code span { color: var(--shiki-dark, var(--color-text)) !important; }
+time, footer { color: var(--color-muted); }
+hr { border: 0; border-top: 1px solid var(--color-border); }
+blockquote { margin-inline: 0; padding-inline-start: 1rem; border-inline-start: 3px solid var(--color-border); }
+th, td { padding: 0.5rem; border-bottom: 1px solid var(--color-border); }
 .posts { padding: 0; list-style: none; }
 .posts li { margin-bottom: 2rem; }
-.draft { border: 1px solid #777; padding: 0.75rem; }
+.draft { border: 1px solid var(--color-control-border); background: var(--color-surface); padding: 0.75rem; }
+.theme-toggle { font: inherit; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-control-border); border-radius: 0.3rem; padding: 0.5rem 0.75rem; min-height: 44px; cursor: pointer; }
+.theme-toggle:hover { border-color: var(--color-link-hover); }
+.theme-toggle-state::after { content: ': vypnuto'; }
+.theme-toggle[aria-pressed='true'] .theme-toggle-state::after { content: ': zapnuto'; }
 .skip-link { position: absolute; left: -10000px; }
 .skip-link:focus { position: static; display: block; padding: 0.5rem; }

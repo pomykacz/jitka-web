@@ -63,6 +63,21 @@ Both `--base=/path/` and `--base /path/` are accepted; use a leading and trailin
 
 Private QA uses its managed preview, not a long-running worker server. The external service installs with `npm ci`, runs `node scripts/site.mjs check`, and builds with `node scripts/site.mjs build --base={candidate_base}`; the service expands that token to `/qa-.../`. Only its install step needs network. External service configuration is owned by the Mayor, outside this repository. Required checks remain `html/build` and GitHub **Validate site**.
 
+## Color theme
+
+The site follows the operating system's light/dark preference until the visitor uses
+**Tmavý režim** in the header. This keyboard-operable toggle announces its pressed
+state and saves a manual choice under `jitka-web-theme` in localStorage. Clearing
+that key returns to system preference; changes also synchronize across open tabs.
+If storage is blocked, switching still works for the current page. Without
+JavaScript, the system palette still applies and the inactive toggle stays hidden.
+
+`ThemeScript.astro` restores the theme synchronously in the shared document head,
+before the page renders. `global.css` owns the semantic color tokens, including
+surfaces, controls, and focus indicators; Markdown code uses Shiki's light/dark
+palettes. No runtime framework or remote theme assets are needed. `npm test` also
+checks the built theme script's preference, persistence, and storage-failure behavior.
+
 ## Add or edit content
 
 For a first real article, create `src/content/posts/my-first-post/index.md` and put any images next to it. Copy the structure below, replace the text with Jitka's content, and initially keep `draft: true`:
