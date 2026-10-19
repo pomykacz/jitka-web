@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import readingPreview from '../assets/downloads/ctenarsky-denik-nahled.png';
 import explorerPreview from '../assets/downloads/objevitelsky-denik-nahled.png';
 import diaryPreview from '../assets/downloads/cestovni-denik-nahled.png';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -32,6 +33,19 @@ import { url } from '../lib/urls';
     </figure>
     <p>PDF · 1 strana A4 · k vyplnění dětmi</p>
     <p><a href={url('ke-stazeni/objevitelsky-denik.pdf')} download>Stáhnout objevitelský deník (PDF)</a></p>
+    <p>Vytiskněte na jeden list papíru A4.</p>
+  </article>
+  <article class="section-card" aria-labelledby="reading-heading">
+    <h2 id="reading-heading">Můj čtenářský deník</h2>
+    <p>Hravý pracovní list pro děti na prvním stupni po přečtení knihy. Děti doplní autora, hlavní postavy a čas i místo příběhu, vyprávějí vlastními slovy a zachytí své dojmy. Nakonec doporučí knihu dalším čtenářům a vysvětlí proč.</p>
+    <figure class="download-preview">
+      <a href={url('ke-stazeni/ctenarsky-denik.pdf')} aria-label="Otevřít PDF čtenářského deníku, 1 strana A4">
+        <Image src={readingPreview} width={600} alt="Můj čtenářský deník s údaji o knize, postavách a prostředí příběhu, místem na vlastní vyprávění, dojmy a doporučení." loading="lazy" />
+      </a>
+      <figcaption>Náhled celého pracovního listu. PDF obsahuje 1 stranu A4.</figcaption>
+    </figure>
+    <p>PDF · 1 strana A4 · k vyplnění dětmi</p>
+    <p><a href={url('ke-stazeni/ctenarsky-denik.pdf')} download>Stáhnout čtenářský deník (PDF)</a></p>
     <p>Vytiskněte na jeden list papíru A4.</p>
   </article>
 </BaseLayout>
