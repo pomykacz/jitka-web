@@ -8,6 +8,11 @@ const entries = await pages();
   <h1>Jitka web</h1>
   <p>Osobní web a blog. Obsah se připravuje.</p>
   <p><a href={url('blog/')}>Přejít na blog</a></p>
+  <section aria-labelledby="downloads-heading">
+    <h2 id="downloads-heading"><a href={url('ke-stazeni/')}>Ke stažení</a></h2>
+    <p>Můj cestovatelský deník, Můj objevitelský deník a Můj čtenářský deník: hravé pracovní listy pro děti na prvním stupni.</p>
+    <p><a href={url('ke-stazeni/')}>Prohlédnout náhledy a stáhnout PDF</a></p>
+  </section>
   {entries.length > 0 && <section aria-labelledby="pages-heading">
     <h2 id="pages-heading">Stránky</h2>
     <ul>{entries.map((entry) => <li>
