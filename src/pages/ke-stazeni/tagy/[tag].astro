@@ -1,0 +1,9 @@
+---
+import DownloadsPage from '../../../components/DownloadsPage.astro';
+import { downloadFilters } from '../../../lib/download-tags';
+export function getStaticPaths() {
+  return downloadFilters.map((tag) => ({ params: { tag: tag.slug }, props: { activeTag: tag.label } }));
+}
+const { activeTag } = Astro.props;
+---
+<DownloadsPage activeTag={activeTag} />
