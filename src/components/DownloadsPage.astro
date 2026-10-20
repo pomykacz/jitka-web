@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import readingPreview from '../assets/downloads/ctenarsky-denik-nahled.png';
+import explorerPreview from '../assets/downloads/objevitelsky-denik-nahled.png';
+import diaryPreview from '../assets/downloads/cestovni-denik-nahled.png';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/urls';
+import { downloadTags, downloadFilters, downloadTagUrl } from '../lib/download-tags';
+interface Props { activeTag?: string }
+const { activeTag } = Astro.props;
+const matches = (key: keyof typeof downloadTags) => !activeTag || downloadTags[key].includes(activeTag);
+---
+<BaseLayout title={activeTag ? `Ke stažení: ${activeTag}` : 'Ke stažení'} description="Materiály pro děti k vytištění a společnému objevování.">
+  <h1>Ke stažení</h1>
+  <p class="lead">Materiály pro děti k vytištění a společnému objevování.</p>
+  <nav class="download-filters" aria-label="Filtrovat materiály podle tagu">
+    <a href={url('ke-stazeni/')} aria-current={!activeTag ? 'page' : undefined}>Všechny materiály</a>
+    {downloadFilters.map((tag) => <a href={downloadTagUrl(tag.label)} aria-current={activeTag === tag.label ? 'page' : undefined}>{tag.label}</a>)}
+  </nav>
+  {activeTag && <p>Materiály s tagem <strong>{activeTag}</strong></p>}
+
+  {matches('travel') && (
+  <article class="section-card" aria-labelledby="diary-heading">
+    <h2 id="diary-heading">Můj cestovatelský deník</h2>
+    <ul class="download-tags" aria-label="Tagy materiálu">{downloadTags.travel.map((tag) => <li><a href={downloadTagUrl(tag)}>{tag}</a></li>)}</ul>
+    <p>Hravý pracovní list pro děti na prvním stupni. Děti doplní zemi a její vlajku, základní údaje, jazyk, jídlo, přírodu i zajímavá místa. Zaznamenají také datum návštěvy nebo plánovanou cestu.</p>
+    <figure class="download-preview">
+      <a href={url('ke-stazeni/cestovni-denik.pdf?v=outlon-2')} aria-label="Otevřít PDF cestovního deníku, 2 strany A4">
+        <Image src={diaryPreview} width={600} alt="První strana cestovního deníku s prázdnou vlajkou a políčky pro údaje o zemi, jazyk a jídlo." loading="lazy" />
+      </a>
+      <figcaption>Náhled první strany. PDF obsahuje 2 strany A4.</figcaption>
+    </figure>
+    <p>PDF · 2 strany A4 · k vyplnění dětmi</p>
+    <p><a href={url('ke-stazeni/cestovni-denik.pdf?v=outlon-2')} download>Stáhnout cestovní deník (PDF)</a></p>
+    <p>Pro dva listy vytiskněte jednostranně na papír A4, jednu stránku na list.</p>
+  </article>
+  )}
+  {matches('explorer') && (
+  <article class="section-card" aria-labelledby="explorer-heading">
+    <h2 id="explorer-heading">Můj objevitelský deník</h2>
+    <ul class="download-tags" aria-label="Tagy materiálu">{downloadTags.explorer.map((tag) => <li><a href={downloadTagUrl(tag)}>{tag}</a></li>)}</ul>
+    <p>Hravý pracovní list pro děti na prvním stupni po návštěvě divadla, muzea, výstavy, hradu nebo zámku. Děti zaznamenají, co viděly, co je zaujalo a co nového se dozvěděly. Nechybí místo na obrázek nebo vstupenku.</p>
+    <figure class="download-preview">
+      <a href={url('ke-stazeni/objevitelsky-denik.pdf?v=outlon-2')} aria-label="Otevřít PDF objevitelského deníku, 1 strana A4">
+        <Image src={explorerPreview} width={600} alt="Můj objevitelský deník s datem návštěvy, otázkami na zážitky, místem pro obrázek a hvězdičkovým hodnocením." loading="lazy" />
+      </a>
+      <figcaption>Náhled celého pracovního listu. PDF obsahuje 1 stranu A4.</figcaption>
+    </figure>
+    <p>PDF · 1 strana A4 · k vyplnění dětmi</p>
+    <p><a href={url('ke-stazeni/objevitelsky-denik.pdf?v=outlon-2')} download>Stáhnout objevitelský deník (PDF)</a></p>
+    <p>Vytiskněte na jeden list papíru A4.</p>
+  </article>
+  )}
+  {matches('reading') && (
+  <article class="section-card" aria-labelledby="reading-heading">
+    <h2 id="reading-heading">Můj čtenářský deník</h2>
+    <ul class="download-tags" aria-label="Tagy materiálu">{downloadTags.reading.map((tag) => <li><a href={downloadTagUrl(tag)}>{tag}</a></li>)}</ul>
+    <p>Hravý pracovní list pro děti na prvním stupni po přečtení knihy. Děti doplní autora, hlavní postavy a čas i místo příběhu, vyprávějí vlastními slovy a zachytí své dojmy. Nakonec doporučí knihu dalším čtenářům a vysvětlí proč.</p>
+    <figure class="download-preview">
+      <a href={url('ke-stazeni/ctenarsky-denik.pdf?v=outlon-2')} aria-label="Otevřít PDF čtenářského deníku, 1 strana A4">
+        <Image src={readingPreview} width={600} alt="Můj čtenářský deník s údaji o knize, postavách a prostředí příběhu, místem na vlastní vyprávění, dojmy a doporučení." loading="lazy" />
+      </a>
+      <figcaption>Náhled celého pracovního listu. PDF obsahuje 1 stranu A4.</figcaption>
+    </figure>
+    <p>PDF · 1 strana A4 · k vyplnění dětmi</p>
+    <p><a href={url('ke-stazeni/ctenarsky-denik.pdf?v=outlon-2')} download>Stáhnout čtenářský deník (PDF)</a></p>
+    <p>Vytiskněte na jeden list papíru A4.</p>
+  </article>
+  )}
+</BaseLayout>
+
+<style>
+  .download-filters, .download-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .download-filters { margin: 1.5rem 0; }
+  .download-tags { padding: 0; margin: 1rem 0; list-style: none; font-size: 0.85rem; }
+  .download-filters a, .download-tags a { display: inline-block; padding: 0.4rem 0.75rem; border: 1px solid var(--color-control-border); border-radius: 1.5rem; text-decoration: none; }
+  .download-filters a { min-height: 44px; display: inline-flex; align-items: center; }
+  .download-filters a[aria-current='page'] { font-weight: bold; color: var(--color-background); background: var(--color-link); }
+  .download-filters a:hover, .download-tags a:hover { text-decoration: underline; }
+
+  article { max-width: 43rem; margin-inline: auto; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 0.5rem; }
+  article + article { margin-top: 2rem; }
+  .download-preview { max-width: 25rem; margin: 1.5rem auto; }
+  .download-preview a { display: block; }
+  .download-preview img { display: block; width: 100%; height: auto; margin: 0; border: 1px solid var(--color-control-border); box-shadow: 0 0.3rem 1rem #00000012; }
+  .download-preview figcaption { margin-top: 0.7rem; font-size: 0.9rem; text-align: center; }
+</style>
