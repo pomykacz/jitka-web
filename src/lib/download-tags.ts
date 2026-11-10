@@ -5,6 +5,7 @@ export const downloadTags = {
   travel: [sharedTags[0], 'Cestování', ...sharedTags.slice(1)],
   explorer: [sharedTags[0], 'Cestování', ...sharedTags.slice(1)],
   nature: [sharedTags[0], 'Cestování', ...sharedTags.slice(1)],
+  zoo: [sharedTags[0], 'Cestování', ...sharedTags.slice(1)],
   reading: [sharedTags[0], 'Čtení', ...sharedTags.slice(1)],
 };
 export const downloadFilters = [
